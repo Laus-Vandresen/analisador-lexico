@@ -37,7 +37,7 @@ public class Analisador {
                 case 1:
                     if (String.valueOf(caracter).matches("[a-zA-Z]+") || String.valueOf(caracter).matches("^[0-9]") || caracter == '_') {
                         tokenAtual.append(caracter);
-                            break;
+                        break;
                     } else if (caracter == OPERADOR_FINALIZACAO) {
                         finalizaToken("identificadores");
                         break;
@@ -83,7 +83,13 @@ public class Analisador {
             InputStream fis = new FileInputStream("expressaoAnalisada.txt");
             Reader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
             BufferedReader br = new BufferedReader(isr);
-            return br.readLine().toCharArray();
+            String linha = br.readLine();
+            StringBuilder caracteres = new StringBuilder();
+            while (linha != null) {
+                caracteres.append(linha.toCharArray());
+                linha = br.readLine();
+            }
+            return caracteres.toString().toCharArray();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo");
         }
