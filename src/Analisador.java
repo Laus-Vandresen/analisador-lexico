@@ -17,11 +17,11 @@ public class Analisador {
         for (char caracter: caracteres) {
             switch (estado) {
                 case 0:
-                    if (String.valueOf(caracter).matches("[a-zA-Z]+")) {
+                    if (isLetter(caracter)) {
                         tokenAtual.append(caracter);
                         estado = 1;
                     }
-                    else if (String.valueOf(caracter).matches("^[0-9]")) {
+                    else if (isNumber(caracter)) {
                         tokenAtual.append(caracter);
                         estado = 3;
                     } else if (caracter == '=') {
@@ -35,7 +35,7 @@ public class Analisador {
                     }
                     break;
                 case 1:
-                    if (String.valueOf(caracter).matches("[a-zA-Z]+") || String.valueOf(caracter).matches("^[0-9]") || caracter == '_') {
+                    if (isLetter(caracter) || isNumber(caracter) || caracter == '_') {
                         tokenAtual.append(caracter);
                         break;
                     } else if (caracter == OPERADOR_FINALIZACAO) {
@@ -44,7 +44,7 @@ public class Analisador {
                     }
                     break;
                 case 3:
-                    if (String.valueOf(caracter).matches("^[0-9]")) {
+                    if (isNumber(caracter)) {
                         tokenAtual.append(caracter);
                     } else if (caracter == OPERADOR_FINALIZACAO) {
                         finalizaToken("número inteiro");
@@ -94,5 +94,13 @@ public class Analisador {
             JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo");
         }
         return null;
+    }
+
+    private static boolean isNumber(char caracter) {
+        return String.valueOf(caracter).matches("^[0-9]");
+    }
+
+    private static boolean isLetter(char caracter) {
+        return String.valueOf(caracter).matches("[a-zA-Z]+");
     }
 }
